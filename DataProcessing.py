@@ -1,6 +1,6 @@
 import pandas as pd 
+df = pd.read_csv("atlantic_open_refined.csv")
 
+test = df[df["Name"] == "KATE"]
 
-df = pd.read_csv("atlantic.csv")
-
-print(df)
+print(test[0:7])
