@@ -1,6 +1,29 @@
 import pandas as pd 
-df = pd.read_csv("atlantic_open_refined.csv")
+from matplotlib import pyplot as plt
+import numpy as np
 
-test = df[df["Name"] == "KATE"]
+df = pd.read_csv("atlantic2.csv")
+img = plt.imread("oceanmap.png")
 
-print(test[0:7])
+
+
+
+conditions = [
+    (df["Date"] <= 19000000),
+    (df["Date"] > 19000000) & (df["Date"] <= 19300000),
+    (df["Date"] > 19300000) & (df["Date"] <= 19600000),
+    (df["Date"] > 19600000) & (df["Date"] <= 20000000),
+    (df["Date"] > 20000000)
+    ]
+values = ["Cyan", "Green", "Khaki", "Darkorange", "Red"]
+df["Named"] = np.select(conditions, values)
+df["Size"] = np.where(df["Name"] != "UNNAMED", 2, .5)
+
+latitude = df["Latitude"]
+longitude = df["Longitude"]
+
+#plt.imshow(img)
+plt.xlim(-120, 0)
+plt.ylim(0, 45)
+plt.scatter(longitude, latitude, s = df["Size"], c = df["Named"])
+plt.show()
